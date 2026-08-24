@@ -1,11 +1,25 @@
 ---
 name: frontend-design-pixi
-description: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.
+description: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Use when choosing palette, type, layout, or copy tone; when a Figma URL or design.md/tokens file should drive the look. Not for atomic folder layout.
+paths:
+  - "**/*.{tsx,jsx,css,scss,dart}"
 ---
 
 # Frontend Design
 
 Approach this as the design lead at a small studio known for giving every client a visual identity that could not be mistaken for anyone else's. This client has already rejected proposals that felt templated, and is paying for a distinctive point of view: make deliberate, opinionated choices about palette, typography, and layout that are specific to this brief, and take one real aesthetic risk you can justify.
+
+Atomic skills own folders and prefixes. This skill owns look, tokens, and copy tone.
+
+## Design source (inspect first)
+
+Do not invent a palette when a source already exists. Do not dump Figma trees, token dumps, or screenshots into chat.
+
+1. **Figma MCP connected, or a `figma.com` URL:** parse `fileKey` + `nodeId` (`node-id=1-2` → `1:2`). Search the design system for existing components, variables, and styles before drawing anything. Pull tokens (`get_variable_defs`) and node context (`get_design_context`) after loading Figma design-to-code guidance. Adapt to the repo’s atoms — do not generate a parallel DS.
+2. **No Figma session:** read `design.md` / `DESIGN.md` / existing token files first. Then inspect `tokens/` (Flutter) or the DS theme. Only invent colors when none of those exist.
+3. Do not generate decorative images unless the user asked for an image **and** no Figma/token source covers it.
+
+Folder layout: `piximind-atomic-web` / `piximind-atomic-flutter`. Secrets/HTML: `piximind-security-js-ts` or `piximind-security-flutter`.
 
 ## Ground it in the subject
 
