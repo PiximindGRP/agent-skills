@@ -1,11 +1,11 @@
 ---
 name: piximind-architecture-nestjs
-description: Enforces NestJS layout — components/{domain} module, HTTP-only controllers, TypeORM repositories, class-validator DTOs, no TypeScript any, no N+1. Use when adding or reviewing NestJS modules, controllers, services, repositories, or DTOs.
+description: Enforces NestJS TypeORM layout — src/entities, HTTP-only controllers, TypeORM repositories, class-validator DTOs. Use when editing TypeORM entities, DTOs, or components/{domain}. If schema.prisma / PrismaService exists, use piximind-architecture-prisma instead.
 paths:
-  - "**/*.ts"
-  - "**/src/components/**"
   - "**/src/entities/**"
+  - "**/*.entity.ts"
   - "**/src/dto/**"
+  - "**/src/components/**"
 ---
 
 # NestJS architecture

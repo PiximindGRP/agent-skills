@@ -1,8 +1,12 @@
 ---
-name: frontend-design-pixi
+name: piximind-frontend-design
 description: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Use when choosing palette, type, layout, or copy tone; when a Figma URL or design.md/tokens file should drive the look. Not for atomic folder layout.
 paths:
-  - "**/*.{tsx,jsx,css,scss,dart}"
+  - "**/*.{css,scss}"
+  - "**/tokens/**"
+  - "**/design.md"
+  - "**/DESIGN.md"
+  - "**/*theme*"
 ---
 
 # Frontend Design

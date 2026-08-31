@@ -2,8 +2,8 @@
 name: piximind-tdd-nextjs
 description: Enforces vertical-slice TDD for Next.js App Router — pure mappers, mocked server-side API modules, RTL at organism public props, typed fixtures with no any. Use when adding Next.js features, tests, or reviewing App Router frontends (Vitest/Jest already in the repo).
 paths:
-  - "**/*.{ts,tsx}"
   - "**/*.{spec,test}.{ts,tsx}"
+  - "**/__tests__/**"
 ---
 
 # Next.js TDD

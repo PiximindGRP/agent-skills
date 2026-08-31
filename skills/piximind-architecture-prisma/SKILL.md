@@ -2,9 +2,9 @@
 name: piximind-architecture-prisma
 description: Enforces NestJS + Prisma layout — PrismaService client, components/{domain} module/controller/service/repository, Prisma WhereInput/Include, class-validator DTOs, IDB models. Use when adding or reviewing NestJS Prisma modules, schema.prisma, repositories, services, or DTOs. If the repo uses TypeORM, DataSource, or src/entities, follow piximind-architecture-nestjs instead.
 paths:
-  - "**/*.ts"
   - "**/*.prisma"
   - "**/prisma/**"
+  - "**/src/model/**"
   - "**/src/components/**"
 ---
 

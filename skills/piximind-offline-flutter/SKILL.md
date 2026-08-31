@@ -2,7 +2,11 @@
 name: piximind-offline-flutter
 description: Enforces offline-first Flutter reads — NetworkBloc, Floor HTTP cache via IApiRepository.supportOffline, local+remote datasources, HydratedBloc session, connectivity banner. Use when adding Flutter network/cache/offline behavior, Floor datasources, or connectivity UX.
 paths:
-  - "**/*.dart"
+  - "**/*floor*"
+  - "**/*network*"
+  - "**/*offline*"
+  - "**/*connectivity*"
+  - "**/lib/**/database/**"
 ---
 
 # Flutter offline-first

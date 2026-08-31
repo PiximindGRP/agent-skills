@@ -1,11 +1,12 @@
 ---
 name: piximind-architecture-nextjs
-description: Enforces Next.js App Router layout plus mandatory route/response interfaces, no any, and DS props in an interfaces folder. Use when adding or reviewing Next.js App Router pages, BFF route handlers, API modules, TypeScript contracts, or folder layout.
+description: "Enforces Next.js App Router layers (server-side / client-side / common-side) and named route/response interfaces. Use when editing src/app or BFF API modules — not Vite or AdminJS."
 paths:
-  - "**/*.{ts,tsx}"
   - "**/src/app/**"
   - "**/src/server-side/**"
   - "**/src/client-side/**"
+  - "**/src/common-side/**"
+  - "**/src/i18n/**"
 ---
 
 # Next.js architecture
@@ -72,7 +73,7 @@ Tree: [references/tree.md](references/tree.md). Route/response/JWT contracts: [r
 - Vite SPA / AdminJS (`piximind-architecture-react` when present).
 - Rewriting a `src/features/` App Router tree to `server-side`/`client-side`, or filling empty `SSRApi` / `NEXT_END_POINT` shells.
 - TDD, SEO audit loops, atomic prefixes, PWA cache lists (sibling skills).
-- Palette (`frontend-design-pixi`).
+- Palette (`piximind-frontend-design`).
 
 ## Token efficiency
 - Inspect `src/`; do not paste the App Router tree into chat — use [references/tree.md](references/tree.md).

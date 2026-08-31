@@ -2,14 +2,16 @@
 
 These rules tell developers **which skills to write**, **what each skill must encode**, and **what Tech Lead will reject at review**. Do not invent a generic internet architecture. Encode **the architecture we already use**.
 
-Security skills already shipped. Do not rewrite them. New skills must **compose** with them.
+This catalog is **private**. Do not open-source it.
+
+Wave 1 (18 skills) lives under `skills/` (source of truth). The same folders are mirrored in `.cursor/skills/` so Cursor discovers them in this catalog. Client projects copy `skills/<name>/` into **their** `.cursor/skills/`. Do not rewrite security or visual-identity skills; new skills must **compose** with them. Index: [README.md](../README.md).
 
 | Status | Skill | Path |
 |--------|--------|------|
-| Shipped | JS/TS security guard | `skills/piximind-security-js-ts/` |
-| Shipped | Flutter security guard | `skills/piximind-security-flutter/` |
-| Shipped | Frontend visual identity | `skills/frontend-design-pixi/` |
-| To write | Architecture, TDD, offline-first, atomic design, SEO | this document |
+| Catalog | JS/TS security guard | `skills/piximind-security-js-ts/` |
+| Catalog | Flutter security guard | `skills/piximind-security-flutter/` |
+| Catalog | Frontend visual identity | `skills/piximind-frontend-design/` |
+| Catalog | Architecture, TDD, offline, atomic, SEO, Prisma | `skills/piximind-*/` (see §5) |
 
 ---
 
@@ -21,7 +23,7 @@ Copy ideas from [skills.sh](https://skills.sh), not their folder trees. Public c
 
 1. One concern per skill. Split if the file mixes architecture + tests + SEO.
 2. `SKILL.md` ≤ 200 lines (target 80–120). Details go in `references/*.md`, one level deep.
-3. Frontmatter `name` is `piximind-{domain}-{tech}` (kebab-case). `description` states **what** and **when**, third person.
+3. Frontmatter `name` is `piximind-{domain}-{tech}` (kebab-case) and **must match the parent folder**. `description` states **what** and **when**, third person, and is short enough to discriminate stacks. Visual identity is `piximind-frontend-design`.
 4. Open with: **inspect the current repo first**. If the project already has a layout, follow it. Do not propose Feature-Sliced Design, hexagonal ports we do not use, or a second design system.
 5. Encode **anti-patterns** (never do) and **approved patterns** (always do), then a **checklist** the agent can tick.
 6. Name **seams** (public boundaries). Agents test and depend on seams, not private helpers.
@@ -36,11 +38,15 @@ Copy ideas from [skills.sh](https://skills.sh), not their folder trees. Public c
 skills/piximind-{domain}-{tech}/
 ├── SKILL.md
 └── references/          # optional
-    ├── seams.md
+    ├── tree.md
+    ├── interfaces.md
+    ├── ds-interfaces.md
     └── examples.md
 ```
 
-Use [SKILL-TEMPLATE.md](SKILL-TEMPLATE.md).
+`paths` must be discriminant (`**/src/app/**`, `**/prisma/**`, `**/src/admin/**`, `**/test/**` …). Never use catch-alls like `**/*.{ts,tsx}` or `**/*.dart` that fire every JS or Dart skill at once. Nest TypeORM vs Prisma may both include `**/src/components/**`; `description` + inspect (`src/entities` vs `schema.prisma`) picks the fork.
+
+Use [SKILL-TEMPLATE.md](SKILL-TEMPLATE.md). Author in `skills/`. Mirror the same folder into `.cursor/skills/` (this catalog) and copy it into each **client** `.cursor/skills/`. Always-on constraints go in `.cursor/rules/piximind-always.mdc` and must be copied into **client** projects (see README Installation).
 
 ---
 
@@ -53,7 +59,7 @@ Use [SKILL-TEMPLATE.md](SKILL-TEMPLATE.md).
 | Agent-skills-standard catalogs | Organize by **technology then domain**. P0 = architecture + security. Keep skills short; progressive disclosure. |
 | SEO cluster (`seo-audit`, `programmatic-seo`, `ai-seo`, GEO) | SEO is a **checklist + audit loop**, not a paragraph of meta-tag advice. Cover metadata, indexability, i18n, structured data, and (for Flutter) ASO + deep links. |
 | Audits / Packs | Skills are reviewed before install. Later we ship a Piximind **pack**, not 20 unrelated skills. |
-| `frontend-design` | Visual identity is already `frontend-design-pixi`. Atomic design skills own **structure and naming**, not palette. |
+| `frontend-design` | Visual identity is `piximind-frontend-design`. Atomic design skills own **structure and naming**, not palette. |
 
 ---
 
@@ -62,14 +68,16 @@ Use [SKILL-TEMPLATE.md](SKILL-TEMPLATE.md).
 A skill is rejected if any box fails.
 
 - [ ] Encodes **our** tree (Flutter feature-first, Nest `components/{domain}`, Next `server-side`/`client-side`, React DS or AdminJS split) — not a generic Clean Architecture blog.
-- [ ] `description` has triggers (framework + domain words).
+- [ ] `description` has triggers (framework + domain words) and discriminates sibling stacks.
+- [ ] `paths` are discriminant (no catch-all `**/*.{ts,tsx}` or `**/*.dart`).
+- [ ] Frontmatter `name` matches the parent folder.
 - [ ] Anti-patterns + approved patterns + checklist.
 - [ ] Seams listed for that technology.
 - [ ] Security skill linked where data/auth/HTML is involved.
 - [ ] No generic FSD / Clean Architecture layer dump that contradicts the trees in this document (Flutter feature-first, Nest `components/{domain}`, Next `server-side`/`client-side`, React DS or AdminJS).
 - [ ] Examples use our names (`atom_cta`, `OrganismTable`, `{Domain}Api`, `IApiRepository`).
 - [ ] `SKILL.md` under 200 lines; extras in `references/`.
-- [ ] Does not duplicate a shipped security skill.
+- [ ] Does not duplicate a catalog security skill.
 
 ---
 
@@ -131,32 +139,42 @@ Inspect first: AdminJS (`src/admin/components`) vs Vite SPA (`Page` / `DesignSys
 
 ---
 
-## 5. Wave 1 delivery list (prepare these PRs)
+## 5. Wave 1 catalog (18 skills)
+
+Wave 1 is **delivered** in the catalog (bootstrap PR). New work after this list is one skill per PR (§6).
 
 | # | Skill folder | Tech | Domain | Priority |
 |---|--------------|------|--------|----------|
 | 1 | `piximind-architecture-flutter` | Flutter | Clean architecture | P0 |
-| 2 | `piximind-architecture-nestjs` | NestJS | Clean architecture | P0 |
-| 3 | `piximind-architecture-nextjs` | Next.js | Clean architecture | P0 |
-| 4 | `piximind-architecture-react` | React | Clean architecture | P0 |
-| 5 | `piximind-tdd-flutter` | Flutter | TDD | P0 |
-| 6 | `piximind-tdd-nestjs` | NestJS | TDD | P0 |
-| 7 | `piximind-tdd-nextjs` | Next.js | TDD | P0 |
-| 8 | `piximind-tdd-react` | React | TDD | P0 |
-| 9 | `piximind-offline-flutter` | Flutter | Offline-first | P0 |
-| 10 | `piximind-offline-nextjs` | Next.js | Offline / PWA | P1 |
-| 11 | `piximind-atomic-flutter` | Flutter | Atomic design | P0 |
-| 12 | `piximind-atomic-web` | Next.js + React | Atomic design | P0 |
-| 13 | `piximind-seo-web` | Next.js | SEO | P0 |
-| 14 | `piximind-seo-flutter` | Flutter | SEO / ASO | P1 |
+| 2 | `piximind-architecture-nestjs` | NestJS TypeORM | Clean architecture | P0 |
+| 3 | `piximind-architecture-prisma` | NestJS Prisma | Clean architecture | P0 |
+| 4 | `piximind-architecture-nextjs` | Next.js | Clean architecture | P0 |
+| 5 | `piximind-architecture-react` | React | Clean architecture | P0 |
+| 6 | `piximind-tdd-flutter` | Flutter | TDD | P0 |
+| 7 | `piximind-tdd-nestjs` | NestJS | TDD | P0 |
+| 8 | `piximind-tdd-nextjs` | Next.js | TDD | P0 |
+| 9 | `piximind-tdd-react` | React | TDD | P0 |
+| 10 | `piximind-offline-flutter` | Flutter | Offline-first | P0 |
+| 11 | `piximind-offline-nextjs` | Next.js | Offline / PWA | P1 |
+| 12 | `piximind-atomic-flutter` | Flutter | Atomic design | P0 |
+| 13 | `piximind-atomic-web` | Next.js + React | Atomic design | P0 |
+| 14 | `piximind-seo-web` | Next.js | SEO | P0 |
+| 15 | `piximind-seo-flutter` | Flutter | SEO / ASO | P1 |
+| 16 | `piximind-security-js-ts` | JS/TS | Security | P0 |
+| 17 | `piximind-security-flutter` | Flutter | Security | P0 |
+| 18 | `piximind-frontend-design` | Web + Flutter | Visual identity | P0 |
 
-Security + visual design: already deployed. Do not include them in Wave 1 PRs except to **link** them.
+Do not add extra domains in a follow-up without Tech Lead agreement. Security and visual identity are in the catalog so they can be copied into client projects; do not rewrite them inside architecture/TDD PRs — **link** them.
 
 ---
 
 ## 6. How to submit for review
 
+**Wave 1 bootstrap:** the initial catalog (this list) may land as a single PR. That is an explicit exception, not a precedent.
+
+After Wave 1:
+
 1. Branch: `skill/{skill-name}` from `main` in `agent-skills`.
 2. One skill per PR.
-3. PR description: which **tree** you encoded, which **seams**, which **anti-patterns**. No project or customer names.
-4. Tech Lead reviews against section 3. Merge = deploy to the team Cursor setup.
+3. PR description is mandatory: which **tree** you encoded, which **seams**, which **anti-patterns**. No project or customer names. Use `.github/PULL_REQUEST_TEMPLATE.md`.
+4. Tech Lead reviews against section 3 (`CODEOWNERS`). Merge = deploy to the team Cursor setup (client projects copy `skills/<name>/` into `.cursor/skills/` + `piximind-always.mdc`).

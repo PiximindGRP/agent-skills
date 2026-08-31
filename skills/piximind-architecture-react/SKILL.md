@@ -2,10 +2,10 @@
 name: piximind-architecture-react
 description: Enforces React CSR layout — Vite Page→Template→DesignSystem plus {Domain}API with typed route/response interfaces, or AdminJS pages/actions/properties. Use when adding or reviewing React SPA, Vite, CSR, AdminJS UI, or TypeScript contracts. Not for Next.js App Router or RSC.
 paths:
-  - "**/*.{ts,tsx}"
   - "**/src/admin/**"
   - "**/src/Page/**"
   - "**/src/DesignSystem/**"
+  - "**/register-components.ts"
 ---
 
 # React architecture (SPA / AdminJS)
@@ -14,7 +14,7 @@ Inspect the current repository first. Follow its existing folders. Do not introd
 
 If the repo is Next.js App Router (`src/app/`, `server-side/`, `client-side/`, `"use client"`, RSC), stop — use `piximind-architecture-nextjs`.
 
-Vite SPA = `src/Page` + `DesignSystem` + `{Domain}API`. AdminJS = `src/admin/components`. Trees: [references/trees.md](references/trees.md).
+Vite SPA = `src/Page` + `DesignSystem` + `{Domain}API`. AdminJS = `src/admin/components`. Trees: [references/tree.md](references/tree.md).
 
 ## Anti-patterns
 - **Do NOT** invent Feature-Sliced Design, hexagonal ports, UseCase folders, or `src/{data,domain,presentation}`.
@@ -46,7 +46,7 @@ Vite SPA = `src/Page` + `DesignSystem` + `{Domain}API`. AdminJS = `src/admin/com
 1. Detect the tree: AdminJS `src/admin/components` vs Vite `src/Page` + `DesignSystem` vs existing `ds/` / `components/base`.
 2. Follow the nearest screen in **that** tree. Match folder case (PascalCase vs kebab files). Match the existing interfaces folder — do not mix colocated and `Interface/`.
 3. Run the checklist.
-4. Auth, secrets, PII, or HTML → `piximind-security-js-ts`. Tests → `piximind-tdd-react`. Structure/naming → `piximind-atomic-web`. Palette → `frontend-design-pixi`.
+4. Auth, secrets, PII, or HTML → `piximind-security-js-ts`. Tests → `piximind-tdd-react`. Structure/naming → `piximind-atomic-web`. Palette → `piximind-frontend-design`.
 
 ## Checklist
 - [ ] Inspected `src/` and copied an existing feature, not a textbook Clean Architecture / FSD layout.
@@ -62,8 +62,8 @@ Vite SPA = `src/Page` + `DesignSystem` + `{Domain}API`. AdminJS = `src/admin/com
 - Next.js App Router, RSC, `generateMetadata`, `server-side` mappers (`piximind-architecture-nextjs`).
 - Nest module layout (`piximind-architecture-nestjs`). Do not “migrate” AdminJS `resources/` into Nest `components/{domain}`.
 - Adding PWA to an online-only admin. If admin offline helpers already exist, do not duplicate them here.
-- Palette / visual identity (`frontend-design-pixi`). SEO for public sites (`piximind-seo-web`).
+- Palette / visual identity (`piximind-frontend-design`). SEO for public sites (`piximind-seo-web`).
 
 ## Token efficiency
-- Inspect `src/`; do not paste SPA/AdminJS trees into chat — use [references/trees.md](references/trees.md).
+- Inspect `src/`; do not paste SPA/AdminJS trees into chat — use [references/tree.md](references/tree.md).
 - One concern: React layers + typed HTTP/DS contracts. Tests → `piximind-tdd-react`. Secrets → `piximind-security-js-ts`.

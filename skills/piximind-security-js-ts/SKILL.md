@@ -2,7 +2,16 @@
 name: piximind-security-js-ts
 description: Enforces dynamic environment variable discovery, dependency risk analysis, zero-trust data handling, and a ban on TypeScript any for Next.js, React, and NestJS. Use when env, deps, untrusted payloads, secrets in logs/tests, or JWT typing are involved.
 paths:
-  - "**/*.{ts,tsx,js,jsx}"
+  - "**/.env*"
+  - "**/env.mjs"
+  - "**/env.ts"
+  - "**/*config*.ts"
+  - "**/auth/**"
+  - "**/*jwt*"
+  - "**/middleware.ts"
+  - "**/src/proxy.ts"
+  - "**/*guard*.ts"
+  - "**/*strategy*.ts"
 ---
 
 # JS/TS Security, Dependency & Config Protocols

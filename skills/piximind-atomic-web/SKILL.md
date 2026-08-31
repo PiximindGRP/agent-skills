@@ -1,8 +1,14 @@
 ---
 name: piximind-atomic-web
-description: Enforces web atomic structure for Next.js and React — Atom*/Molecule*/Organism* with props as interfaces in an interfaces folder. Use when adding UI in Next.js App Router or React SPAs (including AdminJS). Not for palette (frontend-design-pixi).
+description: Enforces web atomic structure for Next.js and React — Atom*/Molecule*/Organism* with props as interfaces in an interfaces folder. Use when adding UI in Next.js App Router or React SPAs (including AdminJS). Not for palette (piximind-frontend-design).
 paths:
-  - "**/*.{ts,tsx}"
+  - "**/ds/**"
+  - "**/atoms/**"
+  - "**/molecules/**"
+  - "**/organisms/**"
+  - "**/components/base/**"
+  - "**/components/application/**"
+  - "**/DesignSystem/**"
 ---
 
 # Web atomic design (Next.js + React)
@@ -13,7 +19,7 @@ One naming system **per repo**. Do not mix `AtomButton` and `components/base/but
 
 DS props **must** be named interfaces in the repo’s interfaces folder — never inline in the `.tsx`. Folder map and examples: [references/ds-interfaces.md](references/ds-interfaces.md).
 
-Read `design.md` / `DESIGN.md` first if present. If Figma MCP is connected, pull tokens/components via `frontend-design-pixi` — do not invent a palette.
+Read `design.md` / `DESIGN.md` first if present. If Figma MCP is connected, pull tokens/components via `piximind-frontend-design` — do not invent a palette.
 
 Inspect first. Do not dump the DS tree into chat.
 
@@ -35,7 +41,7 @@ Inspect first. Do not dump the DS tree into chat.
 - **Do** put pages under `client-side/pages`, `components/pages`, or `src/app/`, composing organisms. `"use client"` only on DS/pages that need it — keeps the RSC bundle small.
 - **Do** (AdminJS / some SPAs): map `components/base` ≈ atoms/molecules, `components/application` ≈ organisms. Register AdminJS pieces in `register-components.ts` only.
 - **Do** allow organisms to use feature types (`IOrganismTable<TSchema>`); atoms stay generic.
-- **Do** give exported components an explicit return type (`JSX.Element`). Leave palette to `frontend-design-pixi`.
+- **Do** give exported components an explicit return type (`JSX.Element`). Leave palette to `piximind-frontend-design`.
 
 ## Seams (test / depend here)
 - Organism public props (`IOrganismTable`, action callbacks) — RTL (`piximind-tdd-nextjs` / `piximind-tdd-react`).
@@ -60,7 +66,7 @@ Inspect first. Do not dump the DS tree into chat.
 - [ ] AdminJS components registered only in `register-components.ts` when that is the app.
 
 ## Out of scope
-- Visual identity / palette (`frontend-design-pixi`).
+- Visual identity / palette (`piximind-frontend-design`).
 - Flutter atomic (`piximind-atomic-flutter`).
 - Nest “atomic” skills (rejected).
 - SEO metadata (`piximind-seo-web`).
@@ -68,4 +74,4 @@ Inspect first. Do not dump the DS tree into chat.
 
 ## Token efficiency
 - Inspect the nearest atom/organism + its `I*` file; do not paste the DS tree into chat — use [references/ds-interfaces.md](references/ds-interfaces.md).
-- One concern: structure, naming, typed props. Palette → `frontend-design-pixi`. HTTP types → architecture skills.
+- One concern: structure, naming, typed props. Palette → `piximind-frontend-design`. HTTP types → architecture skills.

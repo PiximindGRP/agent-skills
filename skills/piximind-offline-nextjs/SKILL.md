@@ -2,8 +2,11 @@
 name: piximind-offline-nextjs
 description: Enforces Next.js PWA offline using the repo’s existing ServiceWorkerRegister, InstallPrompt, and manifest — cache static shell plus agreed GET reads only. Use when changing service workers, PWA install UX, or offline caching in a Next.js app that already has a SW.
 paths:
-  - "**/*.{ts,tsx,js}"
-  - "**/public/**"
+  - "**/*service-worker*"
+  - "**/*ServiceWorker*"
+  - "**/sw.{js,ts}"
+  - "**/manifest.{json,webmanifest,ts}"
+  - "**/*InstallPrompt*"
 ---
 
 # Next.js offline / PWA

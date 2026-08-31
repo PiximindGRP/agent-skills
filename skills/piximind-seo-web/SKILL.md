@@ -2,8 +2,12 @@
 name: piximind-seo-web
 description: Enforces Next.js SEO audit-loop — per-route generateMetadata, sitemap/robots, next-intl hreflang, RSC-indexable content, next/image alt, noindex on private routes. Use when adding App Router pages, metadata, locales, or crawling/indexability work in Next.js.
 paths:
-  - "**/*.{ts,tsx}"
-  - "**/src/app/**"
+  - "**/src/app/**/layout.{ts,tsx}"
+  - "**/src/app/**/page.{ts,tsx}"
+  - "**/sitemap.{ts,tsx,xml}"
+  - "**/robots.{ts,tsx,txt}"
+  - "**/opengraph-image.*"
+  - "**/twitter-image.*"
 ---
 
 # Next.js SEO

@@ -2,7 +2,6 @@
 name: piximind-tdd-nestjs
 description: Enforces Jest vertical-slice TDD for NestJS — colocated *.spec.ts, mocked repositories, no real Keycloak or DB in unit tests. Use when adding NestJS features, writing service/controller specs, or reviewing e2e tests.
 paths:
-  - "**/*.ts"
   - "**/*.spec.ts"
   - "**/test/**"
 ---

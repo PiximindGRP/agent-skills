@@ -1,202 +1,257 @@
 <p align="center">
-  <img src="docs/assets/piximind-logo.svg" alt="Piximind" width="280" />
+  <img src="docs/assets/piximind-logo.jpg" alt="Piximind — Web & Mobile Solutions" width="720" />
 </p>
 
-# Piximind agent-skills
+# Piximind Agent Skills
 
-Internal Cursor skills for Flutter, NestJS (TypeORM or Prisma), Next.js, React, and TypeScript.
+Install these skills from [skills.sh](https://skills.sh) so your AI agent follows Piximind conventions for Flutter, NestJS, Next.js, and React.
 
-Skills auto-apply when the agent judges them relevant from `description`, and only when open files match `paths`. There is no `alwaysApply` / `always_true` field on `SKILL.md` ([Cursor Skills](https://cursor.com/docs/skills.md)). Always-on text lives in a **rule**: [`.cursor/rules/piximind-always.mdc`](.cursor/rules/piximind-always.mdc) (`alwaysApply: true`).
+They work with **Cursor** (commands below). The same packages work with Claude Code, Codex, and other agents supported by the [`npx skills`](https://github.com/vercel-labs/skills) CLI — change `-a cursor` to your agent.
 
-| Apply | Mechanism | Where |
-|-------|-----------|--------|
-| Every chat | `alwaysApply: true` | `.cursor/rules/*.mdc` |
-| Matching files | `paths:` | `skills/*/SKILL.md` |
-| Agent decides | `description` | `skills/*/SKILL.md` |
-| Slash only | `disable-model-invocation: true` | not used here |
-
-Authoring: [docs/SKILL-RULES.md](docs/SKILL-RULES.md) · [docs/SKILL-TEMPLATE.md](docs/SKILL-TEMPLATE.md) · full rules dump: [docs/SKILLS-SUMMARY.md](docs/SKILLS-SUMMARY.md).
-
-One skill per PR on `skill/{skill-name}`. Do not merge until Tech Lead review.
+[![skills.sh](https://skills.sh/b/PiximindGRP/agent-skills)](https://skills.sh/PiximindGRP/agent-skills)
 
 ---
 
-## Catalog
+## Quick start
 
-| Domain | Flutter | NestJS | Next.js | React SPA / AdminJS |
-|--------|---------|--------|---------|---------------------|
-| Architecture | [flutter](skills/piximind-architecture-flutter/SKILL.md) | TypeORM [nestjs](skills/piximind-architecture-nestjs/SKILL.md) · Prisma [prisma](skills/piximind-architecture-prisma/SKILL.md) | [nextjs](skills/piximind-architecture-nextjs/SKILL.md) | [react](skills/piximind-architecture-react/SKILL.md) |
-| TDD | [tdd-flutter](skills/piximind-tdd-flutter/SKILL.md) | [tdd-nestjs](skills/piximind-tdd-nestjs/SKILL.md) | [tdd-nextjs](skills/piximind-tdd-nextjs/SKILL.md) | [tdd-react](skills/piximind-tdd-react/SKILL.md) |
-| Offline | [offline-flutter](skills/piximind-offline-flutter/SKILL.md) | — | [offline-nextjs](skills/piximind-offline-nextjs/SKILL.md) | only if a PWA already exists |
-| Atomic | [atomic-flutter](skills/piximind-atomic-flutter/SKILL.md) | — | [atomic-web](skills/piximind-atomic-web/SKILL.md) | [atomic-web](skills/piximind-atomic-web/SKILL.md) |
-| SEO | [seo-flutter](skills/piximind-seo-flutter/SKILL.md) | — | [seo-web](skills/piximind-seo-web/SKILL.md) | usually `noindex` |
-| Security | [security-flutter](skills/piximind-security-flutter/SKILL.md) | [security-js-ts](skills/piximind-security-js-ts/SKILL.md) | same | same |
-| Visual | [frontend-design-pixi](skills/frontend-design-pixi/SKILL.md) | — | same | same |
+You need [Node.js](https://nodejs.org/). In the project where you want the skill:
+
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/<skill-name>/skills/<skill-name> --skill <skill-name> -a cursor --copy -y
+```
+
+Then in Cursor: **Customize → Skills** and check that the skill is listed under Agent Decides. In chat, type `/` plus the skill name (for example `/piximind-architecture-nextjs`) and press Enter.
+
+| After install | Command |
+|---------------|---------|
+| See what you have | `npx skills ls -a cursor` |
+| Update | `npx skills update -p` |
+| Remove one skill | `npx skills remove <skill-name> -a cursor` |
+
+`--copy` avoids Windows symlink issues. If GitHub asks you to sign in, you need access to `PiximindGRP/agent-skills`.
 
 ---
 
 ## Architecture
 
-### `piximind-architecture-flutter`
+### piximind-architecture-flutter
 
-**Apply:** `paths` `**/*.dart`, `**/*.yaml`, `**/*.arb`  
-**When:** Flutter features, layers, DI, routing, BLoCs.
+Keeps Flutter apps in a feature-first layout: domain, data, presentation, BLoC, routing, and dependency injection.
 
-Feature-first `lib/features/{feature}/{domain,data,presentation}`. Domain = entities + repository contracts + `UseCase.call` (no Flutter / Floor / `http`). Data = datasources + `*_repository_impl.dart`. Presentation composes `template_` / `organism_`. DI `get_it`, routing `go_router`, state in `lib/core/blocs/`. Widget props typed (`*Params` or named constructors). No Riverpod / AutoRoute.
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-architecture-flutter/skills/piximind-architecture-flutter --skill piximind-architecture-flutter -a cursor --copy -y
+```
 
-### `piximind-architecture-nestjs`
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-architecture-flutter/skills/piximind-architecture-flutter)
 
-**Apply:** `paths` `**/*.ts`, `**/src/components/**`, `**/src/entities/**`, `**/src/dto/**`  
-**When:** NestJS TypeORM modules, controllers, services, repositories, DTOs. Prisma apps use the Prisma skill instead.
+### piximind-architecture-nestjs
 
-`src/components/{domain}/` = module + HTTP-only controller + service + repository. Entities in `src/entities/` (`Based`, `EDataTable`). DTOs class-validator. Envelope `{ statusCode, data | error }`. No `any`, no N+1, no Prisma in this tree.
+Keeps NestJS APIs on TypeORM: HTTP controllers, services, repositories, and validated DTOs. Use the Prisma skill instead if the project uses Prisma.
 
-### `piximind-architecture-prisma`
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-architecture-nestjs/skills/piximind-architecture-nestjs --skill piximind-architecture-nestjs -a cursor --copy -y
+```
 
-**Apply:** `paths` `**/*.ts`, `**/*.prisma`, `**/prisma/**`, `**/src/components/**`  
-**When:** NestJS + `schema.prisma` / `PrismaService`. TypeORM apps stay on the Nest skill.
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-architecture-nestjs/skills/piximind-architecture-nestjs)
 
-Same `components/{domain}` layers; persistence is `PrismaService` in the repository. Types: `Prisma.*Input`, `IDB{Name}`, `I*` payloads. Extract includes, `select`, shared `where` for list+count, `$transaction`. No `$queryRawUnsafe`.
+### piximind-architecture-prisma
 
-### `piximind-architecture-nextjs`
+Same NestJS layout as above, with Prisma (`schema.prisma`, repositories, transactions). Use the TypeORM skill instead if the project uses TypeORM.
 
-**Apply:** `paths` `**/*.{ts,tsx}`, `**/src/app/**`, `**/src/server-side/**`, `**/src/client-side/**`  
-**When:** App Router pages, BFF handlers, API modules, TS contracts.
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-architecture-prisma/skills/piximind-architecture-prisma --skill piximind-architecture-prisma -a cursor --copy -y
+```
 
-`server-side` / `client-side` / `common-side`. Nest only from `{Domain}Api`. Browser `{Domain}ClientApi`. Named `I{Domain}*Response` interfaces. DS props `IAtom*` / `IMolecule*` / `IOrganism*` in the repo’s interfaces folder. Never `any`. Thin RSC `page.tsx`.
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-architecture-prisma/skills/piximind-architecture-prisma)
 
-### `piximind-architecture-react`
+### piximind-architecture-nextjs
 
-**Apply:** `paths` `**/*.{ts,tsx}`, `**/src/admin/**`, `**/src/Page/**`, `**/src/DesignSystem/**`  
-**When:** Vite SPA / CSR / AdminJS. Not App Router.
+Keeps Next.js App Router apps in server / client / shared layers, with typed API modules. Not for Vite or AdminJS (use the React skill).
 
-Vite: Page → Template → DesignSystem + `{Domain}API`. AdminJS: `admin/components/{pages,actions,properties}` registered only in `register-components.ts`. Atoms never fetch. Typed route/response interfaces. No SW by default.
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-architecture-nextjs/skills/piximind-architecture-nextjs --skill piximind-architecture-nextjs -a cursor --copy -y
+```
+
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-architecture-nextjs/skills/piximind-architecture-nextjs)
+
+### piximind-architecture-react
+
+Keeps Vite React SPAs and AdminJS apps structured (pages, design system, typed API). Not for Next.js App Router.
+
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-architecture-react/skills/piximind-architecture-react --skill piximind-architecture-react -a cursor --copy -y
+```
+
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-architecture-react/skills/piximind-architecture-react)
 
 ---
 
-## TDD
+## Tests (TDD)
 
-Vertical slices only: one failing behavior → minimal code. Tests at **seams**, not private helpers.
+### piximind-tdd-flutter
 
-### `piximind-tdd-flutter`
+Guides test-first Flutter work at use cases, repositories, and BLoC.
 
-**Apply:** `paths` `**/*.dart`, `**/test/**`  
-**When:** `*_test.dart`, test-first Flutter, `bloc_test`.
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-tdd-flutter/skills/piximind-tdd-flutter --skill piximind-tdd-flutter -a cursor --copy -y
+```
 
-`test/features/{feature}/...`. Seams: `UseCase.call`, repository contract, BLoC event → state. Domain tests pure Dart. Widget-test organism/template public API / `*Params` only.
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-tdd-flutter/skills/piximind-tdd-flutter)
 
-### `piximind-tdd-nestjs`
+### piximind-tdd-nestjs
 
-**Apply:** `paths` `**/*.spec.ts`, `**/test/**`, `**/*.ts`  
-**When:** Nest specs and e2e.
+Guides test-first NestJS work with Jest. Unit tests do not hit a real database or Keycloak.
 
-Colocate `*.spec.ts`. Mock repositories / `PROVIDERS`. No real DB or Keycloak. Assert guards. Typed fixtures, no live JWTs.
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-tdd-nestjs/skills/piximind-tdd-nestjs --skill piximind-tdd-nestjs -a cursor --copy -y
+```
 
-### `piximind-tdd-nextjs`
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-tdd-nestjs/skills/piximind-tdd-nestjs)
 
-**Apply:** `paths` `**/*.{ts,tsx}`, `**/*.{spec,test}.{ts,tsx}`  
-**When:** App Router tests (Vitest/Jest already in the repo).
+### piximind-tdd-nextjs
 
-Seams: mappers, server API modules (mocked fetch), RTL organism props, `generateMetadata`. Client tests never call Nest. No `any` in fixtures.
+Guides test-first Next.js App Router work (pure mappers, mocked APIs, component tests).
 
-### `piximind-tdd-react`
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-tdd-nextjs/skills/piximind-tdd-nextjs --skill piximind-tdd-nextjs -a cursor --copy -y
+```
 
-**Apply:** `paths` `**/*.{ts,tsx}`, `**/*.{spec,test}.{ts,tsx}`, `**/src/admin/**`  
-**When:** SPA / AdminJS tests.
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-tdd-nextjs/skills/piximind-tdd-nextjs)
 
-RTL at public props, handlers, visibility. Mock ESM-hostile libs the way the repo already mocks `adminjs`. No CSS-only assertions.
+### piximind-tdd-react
+
+Guides test-first React and AdminJS UI work (public component props, colocated tests).
+
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-tdd-react/skills/piximind-tdd-react --skill piximind-tdd-react -a cursor --copy -y
+```
+
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-tdd-react/skills/piximind-tdd-react)
 
 ---
 
 ## Offline
 
-### `piximind-offline-flutter`
+### piximind-offline-flutter
 
-**Apply:** `paths` `**/*.dart`  
-**When:** Network, Floor cache, connectivity UX.
+Keeps Flutter screens usable offline: cached reads, connectivity banner, no tokens in the local database.
 
-`NetworkBloc` + Floor + `IApiRepository.supportOffline`. No second DB. Tokens in `flutter_secure_storage`. Connectivity banner on `template_scaffold`.
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-offline-flutter/skills/piximind-offline-flutter --skill piximind-offline-flutter -a cursor --copy -y
+```
 
-### `piximind-offline-nextjs`
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-offline-flutter/skills/piximind-offline-flutter)
 
-**Apply:** `paths` `**/*.{ts,tsx,js}`, `**/public/**`  
-**When:** Existing PWA / service worker work.
+### piximind-offline-nextjs
 
-Reuse `ServiceWorkerRegister` / `InstallPrompt` / manifest. Cache static shell + agreed GET only. Never cache tokens or mutations.
+Reuses the Next.js PWA you already have (service worker, install prompt, manifest). Does not add a second offline stack.
+
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-offline-nextjs/skills/piximind-offline-nextjs --skill piximind-offline-nextjs -a cursor --copy -y
+```
+
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-offline-nextjs/skills/piximind-offline-nextjs)
 
 ---
 
-## Atomic design
+## UI structure
 
-### `piximind-atomic-flutter`
+### piximind-atomic-flutter
 
-**Apply:** `paths` `**/*.dart`  
-**When:** Widgets, pages, skeletons, sheets, tokens — not palette.
+Names and organizes Flutter widgets as atoms, molecules, organisms, and templates. For colors and look, also install `piximind-frontend-design`.
 
-`lib/core/common/presentation/{atoms,molecules,organisms,templates,...}` with `atom_` prefixes. Atoms import no features. Props: `*Params` or typed constructors, never `dynamic`/`Map`.
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-atomic-flutter/skills/piximind-atomic-flutter --skill piximind-atomic-flutter -a cursor --copy -y
+```
 
-### `piximind-atomic-web`
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-atomic-flutter/skills/piximind-atomic-flutter)
 
-**Apply:** `paths` `**/*.{ts,tsx}`  
-**When:** Next.js or React UI (including AdminJS) — not palette.
+### piximind-atomic-web
 
-One naming system per repo (`Atom*` under `ds/` **or** `components/base` + `application`). Props as `IAtom*` / `IMolecule*` / `IOrganism*` in the interfaces folder. Atoms wrap HTML only.
+Names and organizes Next.js and React components as atoms, molecules, and organisms. For colors and look, also install `piximind-frontend-design`.
+
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-atomic-web/skills/piximind-atomic-web --skill piximind-atomic-web -a cursor --copy -y
+```
+
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-atomic-web/skills/piximind-atomic-web)
+
+### piximind-frontend-design
+
+Helps the agent pick palette, type, layout, and copy tone (Figma first, otherwise project tokens). Pair with an atomic skill for folder names.
+
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-frontend-design/skills/piximind-frontend-design --skill piximind-frontend-design -a cursor --copy -y
+```
+
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-frontend-design/skills/piximind-frontend-design)
 
 ---
 
 ## SEO
 
-### `piximind-seo-web`
+### piximind-seo-web
 
-**Apply:** `paths` `**/*.{ts,tsx}`, `**/src/app/**`  
-**When:** Metadata, locales, indexability on App Router.
+Improves Next.js search visibility: unique titles and descriptions, sitemap, robots, and indexable content.
 
-Per-route `generateMetadata`, unique per locale. RSC for crawlable copy. Private routes `noindex`. `next/image` + alt.
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-seo-web/skills/piximind-seo-web --skill piximind-seo-web -a cursor --copy -y
+```
 
-### `piximind-seo-flutter`
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-seo-web/skills/piximind-seo-web)
 
-**Apply:** `paths` `**/*.dart`, `**/*.yaml`, `**/fastlane/**`  
-**When:** Store listings, flavors, deeplinks, Flutter web SEO if web is shipped.
+### piximind-seo-flutter
 
-Unique ASO copy per flavor. `go_router` + App/Universal Links. No tokens in query strings. Native-first — no fake `robots.txt` on mobile-only.
+Improves store listings (ASO), app flavors, and App Links / Universal Links.
+
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-seo-flutter/skills/piximind-seo-flutter --skill piximind-seo-flutter -a cursor --copy -y
+```
+
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-seo-flutter/skills/piximind-seo-flutter)
 
 ---
 
 ## Security
 
-Do not rewrite these. New skills compose with them.
+### piximind-security-js-ts
 
-### `piximind-security-js-ts`
+Protects Next.js, React, and NestJS work: no secrets in the client, safe env handling, no TypeScript `any` on untrusted data.
 
-**Apply:** `paths` `**/*.{ts,tsx,js,jsx}`  
-**When:** Env, deps, untrusted payloads, JWT typing, secrets in logs/tests.
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-security-js-ts/skills/piximind-security-js-ts --skill piximind-security-js-ts -a cursor --copy -y
+```
 
-Discover existing env pattern. No secrets in `NEXT_PUBLIC_`. No `--force` / `--legacy-peer-deps` unless ordered. Validate with Zod / class-validator. Never `any`.
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-security-js-ts/skills/piximind-security-js-ts)
 
-### `piximind-security-flutter`
+### piximind-security-flutter
 
-**Apply:** `paths` `**/*.dart`, `**/*.yaml`, `**/*.arb`  
-**When:** Auth, storage, network, `/security-review`.
+Protects Flutter apps: secure token storage, TLS, and careful pub.dev dependencies.
 
-`flutter_secure_storage` for tokens/PII. No `print` of secrets. No TLS bypass. Stale pub.dev packages rejected.
+```bash
+npx skills add https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-security-flutter/skills/piximind-security-flutter --skill piximind-security-flutter -a cursor --copy -y
+```
 
----
-
-## Visual identity
-
-### `frontend-design-pixi`
-
-**Apply:** `paths` `**/*.{tsx,jsx,css,scss,dart}`  
-**When:** Palette, type, layout, copy tone. Figma URL or `design.md` / tokens.
-
-Figma MCP first (`search_design_system`, variables, design context). Else `design.md`. Atomic skills own folders; this skill owns look.
+[Open on GitHub](https://github.com/PiximindGRP/agent-skills/tree/skill/piximind-security-flutter/skills/piximind-security-flutter)
 
 ---
 
-## Cross-cutting (always-on rule)
+## Which skill should I install?
 
-See [`.cursor/rules/piximind-always.mdc`](.cursor/rules/piximind-always.mdc): inspect first, no `any`, typed Flutter props, no secrets, apply the matching skill, compose security.
+Install the **architecture** skill for your stack, then add extras as needed:
 
-Sonar-style (in skills, not a full manual): bugs and vulnerabilities first, then cognitive complexity, duplication, unused locals, empty `catch`. Coverage at seams.
+| Your project | Start with | Often add |
+|--------------|------------|-----------|
+| Flutter app | `piximind-architecture-flutter` | TDD, offline, atomic, SEO, security-flutter |
+| NestJS + TypeORM | `piximind-architecture-nestjs` | TDD, security-js-ts |
+| NestJS + Prisma | `piximind-architecture-prisma` | TDD, security-js-ts |
+| Next.js App Router | `piximind-architecture-nextjs` | TDD, offline, atomic-web, SEO-web, security-js-ts, frontend-design |
+| React Vite / AdminJS | `piximind-architecture-react` | TDD, atomic-web, security-js-ts, frontend-design |
 
-Not a skill: `skills/piximind-security-flutter copy/` (accidental duplicate). Leave unused.
+You can install several skills in the same project. They apply when you open matching files, or when you call them with `/skill-name`.
+
+---
+
+## For Piximind authors
+
+How we write and review skills: [docs/SKILL-RULES.md](docs/SKILL-RULES.md) · [docs/SKILL-TEMPLATE.md](docs/SKILL-TEMPLATE.md).

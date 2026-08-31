@@ -2,9 +2,12 @@
 name: piximind-seo-flutter
 description: Enforces Flutter ASO and deep-link rules — unique store titles per flavor, go_router App Links / Universal Links, indexable public routes only. Use when editing store listings, flavors, deeplinks, Analytics/Sentry extras, or Flutter web SEO if the project actually ships web.
 paths:
-  - "**/*.dart"
-  - "**/*.yaml"
   - "**/fastlane/**"
+  - "**/pubspec.yaml"
+  - "**/*.arb"
+  - "**/flavorizr.yaml"
+  - "**/*deeplink*"
+  - "**/ios/Runner/*.entitlements"
 ---
 
 # Flutter SEO / ASO
@@ -50,7 +53,7 @@ Treat this as a **native app** unless the repo actually builds Flutter web.
 
 ## Out of scope
 - Next.js `generateMetadata` (`piximind-seo-web`).
-- Visual identity (`frontend-design-pixi`) and atomic folder layout (`piximind-atomic-flutter`).
+- Visual identity (`piximind-frontend-design`) and atomic folder layout (`piximind-atomic-flutter`).
 - Inventing a new flavor or store account.
 
 ## Token efficiency

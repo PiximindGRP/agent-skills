@@ -1,15 +1,19 @@
 ---
 name: piximind-atomic-flutter
-description: Enforces Flutter atomic structure and prefixes (atom_, molecule_, organism_, template_) plus DS-typed widget params (*Params or named constructors, never dynamic Maps). Use when adding Flutter widgets, pages, skeletons, sheets, or tokens — not for palette (frontend-design-pixi).
+description: Enforces Flutter atomic structure and prefixes (atom_, molecule_, organism_, template_) plus DS-typed widget params (*Params or named constructors, never dynamic Maps). Use when adding Flutter widgets, pages, skeletons, sheets, or tokens — not for palette (piximind-frontend-design).
 paths:
-  - "**/*.dart"
+  - "**/lib/core/common/presentation/**"
+  - "**/atom_*.dart"
+  - "**/molecule_*.dart"
+  - "**/organism_*.dart"
+  - "**/template_*.dart"
 ---
 
 # Flutter atomic design
 
 Inspect the current repository first. Follow its existing folders. Do not introduce a second architecture.
 
-Atomic design owns **structure and naming**. Palette, type, and “make it distinctive” stay in `frontend-design-pixi` / `tokens/`. Read `design.md` / `DESIGN.md` (or Figma MCP via that skill) before inventing colors.
+Atomic design owns **structure and naming**. Palette, type, and “make it distinctive” stay in `piximind-frontend-design` / `tokens/`. Read `design.md` / `DESIGN.md` (or Figma MCP via that skill) before inventing colors.
 
 Inspect first. Do not dump the presentation tree into chat.
 
@@ -47,7 +51,7 @@ Inspect first. Do not dump the presentation tree into chat.
 1. Locate `lib/core/common/presentation` and follow the nearest atom/molecule/organism — including how **that** widget types its props.
 2. If the UI is feature-specific composition, put it in `features/*/presentation`, not in core.
 3. Run the checklist. `dart analyze` on touched files.
-4. If HTML/webview, tokens, or PII display is involved, also follow `piximind-security-flutter`. Visual identity: `frontend-design-pixi`.
+4. If HTML/webview, tokens, or PII display is involved, also follow `piximind-security-flutter`. Visual identity: `piximind-frontend-design`.
 
 ## Checklist
 - [ ] New shared widget lives under the correct atomic folder with the correct prefix.
@@ -62,7 +66,7 @@ Inspect first. Do not dump the presentation tree into chat.
 
 ## Token efficiency
 - Inspect the nearest widget; do not paste the atomic tree into chat.
-- One concern: structure, naming, and typed props. Palette → `frontend-design-pixi`. Layers → `piximind-architecture-flutter`.
+- One concern: structure, naming, and typed props. Palette → `piximind-frontend-design`. Layers → `piximind-architecture-flutter`.
 
 ## Out of scope
 - Choosing a new brand palette (visual identity skill).

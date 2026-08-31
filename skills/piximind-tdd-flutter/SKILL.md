@@ -2,8 +2,8 @@
 name: piximind-tdd-flutter
 description: Enforces red-green vertical-slice TDD for Flutter features at UseCase, Repository, and BLoC seams. Use when adding Flutter tests, implementing a feature test-first, or reviewing *_test.dart / bloc_test coverage.
 paths:
-  - "**/*.dart"
   - "**/test/**"
+  - "**/*_test.dart"
 ---
 
 # Flutter TDD

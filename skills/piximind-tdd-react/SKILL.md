@@ -2,9 +2,8 @@
 name: piximind-tdd-react
 description: Enforces RTL TDD for React admin and AdminJS UIs at component public props, colocated *.spec.ts / *.test.tsx, typed fixtures with no any. Use when testing React SPAs, AdminJS actions/pages, or design-system components outside App Router.
 paths:
-  - "**/*.{ts,tsx}"
   - "**/*.{spec,test}.{ts,tsx}"
-  - "**/src/admin/**"
+  - "**/__tests__/**"
 ---
 
 # React TDD

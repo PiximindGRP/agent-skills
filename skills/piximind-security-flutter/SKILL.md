@@ -2,9 +2,10 @@
 name: piximind-security-flutter
 description: Executes deep security, dependency risk, and compliance audits for Flutter & Dart applications. Prevents PII leakage, validates secure storage, and enforces safe pub.dev dependency usage.
 paths:
-  - "**/*.dart"
-  - "**/*.yaml"
-  - "**/*.arb"
+  - "**/pubspec.yaml"
+  - "**/*secure_storage*"
+  - "**/*auth*"
+  - "**/lib/**/network/**"
 ---
 
 # Flutter & Dart Security Audit Workflow

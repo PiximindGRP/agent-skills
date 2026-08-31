@@ -2,9 +2,10 @@
 name: piximind-architecture-flutter
 description: Enforces feature-first Clean Architecture — lib/features/{feature}/{domain,data,presentation}, UseCase + repository contracts, get_it, go_router, flutter_bloc. Use when adding or reviewing Flutter features, layers, DI, routing, or BLoCs.
 paths:
-  - "**/*.dart"
-  - "**/*.yaml"
-  - "**/*.arb"
+  - "**/lib/features/**"
+  - "**/lib/core/blocs/**"
+  - "**/injector.dart"
+  - "**/lib/**/router/**"
 ---
 
 # Flutter architecture
@@ -69,7 +70,7 @@ For the tree, DI order, and dependency arrows, read [references/examples.md](ref
 
 ## Out of scope
 - NestJS / Next.js / React trees (`piximind-architecture-nestjs` and later web skills).
-- Palette / visual identity (`frontend-design-pixi`).
+- Palette / visual identity (`piximind-frontend-design`).
 - Rewriting older domain leaks, or adding an architecture linter, unless the user asked.
 - Inventing Isar/Hive/Dio when Floor + `http` via `ApiRepository` already exist.
 
